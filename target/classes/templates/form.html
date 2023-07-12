@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Resume Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 100px;
+            background-color: lightblue;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+        }
+
+        .container h1 {
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .form-group span {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: red;
+        }
+
+        .form-group input[type="text"],
+        .form-group input[type="email"],
+        .form-group input[type="number"],
+        .form-group textarea,
+        .form-group select{
+            width: 90%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .form-group textarea {
+            height: 100px;
+            resize: vertical;
+        }
+
+        .form-group .table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .form-group .table th,
+        .form-group .table td {
+            padding: 8px;
+            border: 1px solid #ccc;
+        }
+
+        .btn-primary {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            text-align: center;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Resume Builder </h1>
+    <form action="#" th:action="@{/resume/ui}" th:object="${details}" method="post">
+        <div class="form-group">
+            <label for="templateId">Template ID</label>
+            <select id="templateId" th:field="*{template_id}">
+                <option value="1" >Template 1</option>
+                <option value="2">Template 2</option>
+                <option value="3">Template 3</option>
+            </select>
+<!--            <input type="text" id="templateId" th:field="*{template_id}" required>-->
+<!--            <span th:if="${#fields.hasErrors('template_id')}" th:errors="*{template_id}"></span>-->
+        </div>
+
+        <div class="form-group">
+            <label for="firstName">First Name</label>
+            <input type="text" id="firstName" th:field="*{personal_information.name}" required>
+<!--            <span th:if="${#fields.hasErrors('personal_information.name')}" th:errors="*{personal_information.name}"></span>-->
+        </div>
+
+        <div class="form-group">
+            <label for="lastName">Last Name</label>
+            <input type="text" id="lastName" th:field="*{personal_information.last_name}" required>
+<!--            <span th:if="${#fields.hasErrors('personal_information.last_name')}" th:errors="*{personal_information.last_name}"></span>-->
+        </div>
+
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" th:field="*{personal_information.email_address}" required>
+<!--            <span th:if="${#fields.hasErrors('personal_information.email_address')}" th:errors="*{personal_information.email_address}"></span>-->
+        </div>
+
+        <div class="form-group">
+            <label for="phoneNumber">Phone Number</label>
+            <input type="number" id="phoneNumber" th:field="*{personal_information.phone_number}" required>
+<!--            <span th:if="${#fields.hasErrors('personal_information.phone_number')}" th:errors="*{personal_information.phone_number}"></span>-->
+        </div>
+
+        <div class="form-group">
+            <label for="linkedinUrl">LinkedIn URL</label>
+            <input type="text" id="linkedinUrl" th:field="*{personal_information.linkedin_url}" required>
+<!--            <span th:if="${#fields.hasErrors('personal_information.linkedin_url')}" th:errors="*{personal_information.linkedin_url}"></span>-->
+        </div>
+
+        <div class="form-group">
+            <label for="jobtitle">Job Title</label>
+            <input type="text" id="jobtitle" th:field="*{job_title}" required>
+<!--            <span th:if="${#fields.hasErrors('job_title')}" th:errors="*{job_title}"></span>-->
+        </div>
+
+        <div class="form-group">
+            <label for="careerObjective">Career Objectives</label>
+            <input type="text" id="careerObjective" th:field="*{career_objective}" required>
+<!--            <span th:if="${#fields.hasErrors('career_objective')}" th:errors="*{career_objective}"></span>-->
+        </div>
+
+        <div class="form-group">
+            <label for="skills">Skills (comma-separated)</label>
+            <input type="text" id="skills" th:field="*{list_of_skills}" required>
+        </div>
+
+        <div class="form-group">
+            <label>Education ( minimum 1 required )</label>
+            <table class="table">
+                <tr th:each="edu, itemStat : *{education}">
+                    <td>
+                        <label >School Name</label>
+<!--                        <span th:text="${itemStat.index}"></span>-->
+                        <input type="text"  th:field="*{education[__${itemStat.index}__].school_name}" th:required=" ${itemStat.index == 0}">
+<!--                        <span th:if="${  itemStat.index == 0 and #fields.hasErrors('career_objective')}" th:errors="*{education[__${itemStat.index}__].school_name}"></span>-->
+                    </td>
+                    <td>
+                        <label >Passing Year</label>
+                        <input type="text"  th:field="*{education[__${itemStat.index}__].passing_year}" th:required=" ${itemStat.index == 0}">
+<!--                        <span th:if="${  itemStat.index == 0 and #fields.hasErrors('career_objective')}" th:errors="*{career_objective}"></span>-->
+                    </td>
+                    <td>
+                        <label >Description</label>
+                        <input type="text"  th:field="*{education[__${itemStat.index}__].description}" th:required=" ${itemStat.index == 0}">
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="form-group">
+            <label>Experience ( minimum 1 required )</label>
+            <table class="table">
+                <tr th:each="exp, itemStat : *{experience}">
+                    <td>
+                        <label >Company Name</label>
+                        <input type="text"  th:field="*{experience[__${itemStat.index}__].company_name}" th:required=" ${itemStat.index == 0}">
+                    </td>
+                    <td>
+                        <label >Passing Year</label>
+                        <input type="text"  th:field="*{experience[__${itemStat.index}__].passing_year}" th:required=" ${itemStat.index == 0}">
+                    </td>
+                    <td>
+                        <label >Responsibilities</label>
+                        <input type="text"  th:field="*{experience[__${itemStat.index}__].responsibilities}" th:required=" ${itemStat.index == 0}">
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="form-group">
+            <label>Achievements ( minimum 1 required )</label>
+            <table class="table">
+                <tr th:each="ach, itemStat : *{achievements}">
+                    <td>
+                        <label >Field</label>
+                        <input type="text"  th:field="*{achievements[__${itemStat.index}__].field}" th:required=" ${itemStat.index == 0}">
+                    </td>
+                    <td>
+                        <label >Awards</label>
+                        <input type="text"  th:field="*{achievements[__${itemStat.index}__].awards}" th:required=" ${itemStat.index == 0}">
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <input type="submit" class="btn-primary" value="Submit">
+    </form>
+</div>
+</body>
+</html>
