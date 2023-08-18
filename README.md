@@ -1,6 +1,4 @@
-# Adobe_Hackathon_Round_2
-Submission for the round 2 of Adobe PapyrusNebula Hackathon
-## Resume Builder API
+# Resume Builder API
 
 ## Task
 Create an API that uses provided resume templates and other information to create resumes. The API will pass the template and report to the Adobe Document Generation API to generate a merged document.
